@@ -1,6 +1,6 @@
 import { Document, Schema, SchemaTypes, Model, model } from "mongoose";
 import  crypto   from "crypto"
-import { ROLES } from "../utils/roles.enum.js";
+import { ROLES } from "../../utils/roles.enum.js";
 
 export interface User extends Document{
     readonly _id: Schema.Types.ObjectId;

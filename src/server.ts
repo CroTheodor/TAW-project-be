@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose = require('mongoose');
-import * as user from "./models/user"
+import * as user from "./models/auth/user.model"
 import http = require('http');
 import { ROLES } from './utils/roles.enum';
 require('dotenv').config();
@@ -23,6 +23,7 @@ app.use(cors());
 
 app.use('/auth', require('./routes/auth'));
 app.use(`/api/v1/employees`, require('./routes/api/v1/employees/employee.service'));
+app.use(`/api/v1/items`, require('./routes/api/v1/menu/menu.service'));
 
 mongoose.connect(process.env.DATABASE_URL as string,{ useUnifiedTopology: true, useNewUrlParser: true}).then(
     ()=> {

@@ -2,8 +2,8 @@ import express from "express";
 import { handleLogin, handleLogout, handleRefreshToken, handleRegister } from '../controllers/auth.controller';
 import passport from "passport";
 import passportHTTP = require('passport-http');
-import { User } from "../models/user";
-import * as user from '../models/user';
+import { User } from "../models/auth/user.model";
+import * as user from '../models/auth/user.model';
 
  
 const router = express.Router();

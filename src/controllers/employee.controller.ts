@@ -1,4 +1,4 @@
-import * as user from '../models/user';
+import * as user from '../models/auth/user.model';
 import { ROLES } from '../utils/roles.enum';
 
 export const getAllEmployees = (req, res)=>{
