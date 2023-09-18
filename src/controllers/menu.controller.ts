@@ -1,75 +1,132 @@
-import { MenuEntry } from "../models/menu/menuEntry.model";
-import * as Drinks from "../models/menu/drinks.model";
-import * as Food from "../models/menu/food.model";
-import * as Desserts from "../models/menu/dessert.model";
+import * as Menu from "../models/menu/menuEntry.model";
+import { attributesToCheck } from '../models/menu/menuEntry.model';
 
-const attributesToCheck = {
-    drinks:["picture", "name", "description", "price", "volume"],
-    food:["picture", "name", "description", "price"],
-    desserts:["picture", "name", "description", "price"],
-}
+
 
 
 
 export const getAvailableItems = async (req, res) =>{
-    let food, drinks, desserts;
-    try{
-        food = await Food.getModel().find({available:true});
-        drinks = await Drinks.getModel().find({available:true});
-        desserts = await Desserts.getModel().find({available:true});
-    }
-    catch(err){
-        res.sendStatus(404);
-        return;
-    }
-    const menu = {
-        food: food,
-        drinks: drinks,
-        desserts: desserts
-    }
-    res.status(200).json(menu);
-}
-export const getAllItems = async (req, res) =>{
-    let food, drinks, desserts;
-    try{
-        food = await Food.getModel().find();
-        drinks = await Drinks.getModel().find();
-        desserts = await Desserts.getModel().find();
-    }
-    catch(err){
-        res.sendStatus(404);
-    }
-    const menu = {
-        food: food,
-        drinks: drinks,
-        desserts: desserts
-    }
-    res.status(200).json(menu);
+    Menu.getModel().find({available:true}).then(
+        (result: Menu.MenuEntry[])=>{
+            console.log(result);
+            let menu = {}
+            for(let i = 0; i < result.length; i++){
+                if(!menu[result[i].type!]){
+                    menu[result[i].type!] = new Array<Menu.MenuEntry>
+                }
+                menu[result[i].type!].push(result[i]!);
+            }
+            res.status(200).json(menu);
+        }
+    ).catch(
+        err =>{
+            console.error(err);
+            return res.sendStatus(404);
+        }
+    )
 }
 
-export const addDrink = (req, res) => {
-    const item : Drinks.Drink = req.body;
+export const getAllItems = async (req, res) =>{
+    let menu = {}
+    Menu.getModel().find().then(
+        (result: Menu.MenuEntry[])=>{
+            let menu = {}
+            for(let i = 0; i < result.length; i++){
+                if(!menu[result[i].type!]){
+                    menu[result[i].type!] = new Array<Menu.MenuEntry>
+                }
+                menu[result[i].type!].push(result[i]!);
+            }
+            res.status(200).json(menu);
+        }
+    ).catch(
+        err =>{
+            console.log(err);
+            return res.sendStatus(404);
+        }
+    )
+}
+
+export const addItem = (req, res) => {
+    const item : Menu.MenuEntry = req.body;
+    if(!item.type){
+        return res.status(400).json({message:"Attribute type is missing"});
+    }
+    if(!Menu.availableTypes.includes(item.type)){
+        return res.status(400).json({message:"The type is not allowed"})
+    }
     const attributes = Object.keys(item);
-    attributesToCheck.drinks.forEach(
+    const attributesToCheck = Menu.attributesToCheck[item.type];
+    let missingAttribute = "";
+    attributesToCheck.forEach(
         (attribute : string) => {
             if(!attributes.includes(attribute)){
-                return res.status(400).json({message:`Attribute ${attribute} missing`})
+                missingAttribute = attribute;
             }
         }
     )
+    if(missingAttribute.length > 0){
+        return res.status(400).json({"message":`Attribute ${missingAttribute} is missing.`})
+    }
     if(!item.available){
         item.available = false;
     }
-    const drink : MenuEntry = Drinks.newItem(item);
-    console.log(drink);
-    drink.save().then(
+    const entry : Menu.MenuEntry = Menu.newItem(item);
+    console.log(entry);
+    entry.save().then(
         (el) =>{
             res.status(200).json({message : `Success, ${el} added to the DB`});
         }
     ).catch(
         err =>{
+            console.error(err);
+            return res.sendStatus(400);
+    })
+}
+
+
+export const updateItem = async (req, res) =>{
+    const id = req.params.id;
+    if(!id){
+        return res.sendStatus(400);
+    }
+    let item = {...req.body}
+    if(Object.keys(item).includes("type")){
+        return res.status(400).json({"message":"Cannot change the type of menu item"});
+    }
+    delete item.id;
+    Menu.getModel().updateOne({_id:id}, {$set:{...item}}).then(
+        el=>
+        {return res.sendStatus(200)}
+    ).catch(
+        err=> {
             console.log(err);
             return res.sendStatus(400);
+        }
+    )
+}
+
+export const deleteItem = (req, res)=>{
+    const id = req.params.id;
+    Menu.getModel().deleteOne({id:id}).then(
+        el=>{
+            return res.status(200).json(el);
+        }
+    ).catch(
+        err=>{
+            return res.sendStatus(404);
+        }
+    )
+}
+
+export const getById = (req,res)=>{
+    const id = req.params.id;
+    Menu.getModel().findById(id).then(
+        el=>{
+            return res.status(200).json(el);
+        }
+    ).catch(err=>{
+        return res.sendStatus(404);
     })
 }
 

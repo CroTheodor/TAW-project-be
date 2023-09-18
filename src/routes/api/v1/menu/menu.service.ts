@@ -1,14 +1,30 @@
 import express from "express";
-import { addDrink, getAllItems, getAvailableItems } from "../../../../controllers/menu.controller";
+import { 
+    addItem,
+    deleteItem,
+    getAllItems, 
+    getAvailableItems,
+    getById,
+    updateItem,  
+    } 
+from "../../../../controllers/menu.controller";
 
 
 const router = express.Router();
 
 router.route("/")
-    .get(getAllItems);
+    .get(getAvailableItems)
+    .post(addItem);
 
-router.route("/menu").get(getAvailableItems);
-router.route("/drinks").post(addDrink);
+router.route("/all").get(getAllItems);
+
+router.route("/:id")
+    .get(getById)
+    .put(updateItem)
+    .delete(deleteItem);
+
+
+
 
 
 module.exports = router;
