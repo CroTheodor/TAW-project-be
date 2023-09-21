@@ -1,0 +1,134 @@
+/api/v1/menu:
+  get:
+    tags: 
+      - Menu
+    description: Returns the list of the available items
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [ "drink", "dessert", "food" ]
+        required: false
+    responses:
+        200:
+            description: Successfully retrieved the list
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MenuEntryDTO'
+        404:
+            description: Not Found
+  post:
+    tags:
+      - Menu
+    description: Adds a menu menu enty 
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MenuEntryDTO'
+    responses:
+      201:
+        description: Created
+      400:
+        description: Bad request
+
+
+##################################################################################
+
+
+/api/v1/menu/all:
+  get:
+    tags: 
+      - Menu
+    description: Returns the list of all the items
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [ "drink", "dessert", "food" ]
+        required: false
+    responses:
+        200:
+            description: Successfully retrieved the list
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MenuEntryDTO'
+        404:
+            description: Not Found
+
+
+##############################################################################################
+
+
+/api/v1/menu/{id}:
+  get:
+    tags: 
+        - Menu
+    description: Return the menu entry based on id
+    parameters:
+      - name: id
+        in: path
+        description: Entry id
+        required: true
+        schema:
+              type: string
+    responses:
+        200:
+            description: Successfuly retrieved employee
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/MenuEntryDTO'
+        404:
+            description: Not Found
+  put:
+    tags: 
+        - Menu
+    parameters:
+      - name: id
+        in: path
+        description: Entry id
+        required: true
+        schema:
+          type: string
+    description: Update a menu entry
+    requestBody:
+      required: true
+      content: 
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MenuEntryDTO'
+    responses:
+        201:
+            description: Update success
+        404:
+            description: Not Found
+        400:
+            description: Bad request
+  delete:
+    tags: 
+        - Menu
+    parameters:
+    - name: id
+      in: path
+      description: Entry id
+      required: true
+      schema:
+            type: string
+    description: Deletes menu entry
+
+    responses:
+        201:
+            description: Delete success
+        404:
+            description: Not Found
+        400:
+            description: Bad request

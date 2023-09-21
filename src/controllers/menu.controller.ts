@@ -3,12 +3,10 @@ import { attributesToCheck } from '../models/menu/menuEntry.model';
 
 
 
-
-
-export const getAvailableItems = async (req, res) =>{
-    Menu.getModel().find({available:true}).then(
+function executeDBQuery(queryFilters, res){
+    console.log(queryFilters);
+    Menu.getModel().find(queryFilters).then(
         (result: Menu.MenuEntry[])=>{
-            console.log(result);
             let menu = {}
             for(let i = 0; i < result.length; i++){
                 if(!menu[result[i].type!]){
@@ -26,29 +24,27 @@ export const getAvailableItems = async (req, res) =>{
     )
 }
 
+export const getAvailableItems = async (req, res) =>{
+    const type = req.query.type;
+    let queryFilters = {available: true};
+    if(type){
+        queryFilters['type'] = type;
+    }
+    executeDBQuery(queryFilters, res);
+}
+
 export const getAllItems = async (req, res) =>{
-    let menu = {}
-    Menu.getModel().find().then(
-        (result: Menu.MenuEntry[])=>{
-            let menu = {}
-            for(let i = 0; i < result.length; i++){
-                if(!menu[result[i].type!]){
-                    menu[result[i].type!] = new Array<Menu.MenuEntry>
-                }
-                menu[result[i].type!].push(result[i]!);
-            }
-            res.status(200).json(menu);
-        }
-    ).catch(
-        err =>{
-            console.log(err);
-            return res.sendStatus(404);
-        }
-    )
+    const type = req.query.type;
+    const queryFilters = {}
+    if(type){
+        queryFilters['type'] = type;
+    }
+    executeDBQuery(queryFilters, res);
 }
 
 export const addItem = (req, res) => {
     const item : Menu.MenuEntry = req.body;
+    
     if(!item.type){
         return res.status(400).json({message:"Attribute type is missing"});
     }
@@ -80,7 +76,7 @@ export const addItem = (req, res) => {
     ).catch(
         err =>{
             console.error(err);
-            return res.sendStatus(400);
+            return res.status(400).json({message:"Error connecting to the DB"});
     })
 }
 

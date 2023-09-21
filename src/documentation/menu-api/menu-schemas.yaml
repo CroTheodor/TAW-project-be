@@ -1,0 +1,38 @@
+components:
+  schemas:
+    MenuEntryDTO:
+      type: object
+      required:
+        - name
+        - description
+        - picture_url
+        - type
+        - available
+        - price
+      properties:
+        name:
+          type: string
+          default: Lemon Chesecake
+        description:
+          type: string
+          default: A fine cheescake with lemon jam
+        picture_url:
+          type: string
+          default: /picture/url
+        type:
+          type: string
+          default: dessert
+        price:
+          type: string
+          default: 10.40
+        available:
+          type: boolean
+          default: true
+        ingredients:
+          type: array
+          items:
+            type: string
+        volume:
+          type: string
+        id:
+          type: string
