@@ -2,38 +2,9 @@ import { Document, Schema, SchemaTypes, Model, model } from "mongoose";
 import  crypto   from "crypto"
 import { ROLES } from "../../utils/roles.enum.js";
 
-/**
- * @openapi
- * components:
- *  schemas:
- *      UserDTO:
- *          type: object
- *          required:
- *              - email
- *              - name
- *              - lastname
- *              - roles
- *              - password
- *          properties:
- *              email:
- *                  type: string
- *                  default: jane.doe@example.com
- *              name:
- *                  type: string
- *                  default: jane
- *              lastname:
- *                  type: string
- *                  default: doe
- *              roles:
- *                   type: string
- *                   example: role1
- *              password:
- *                   type: string
- *                   example: passwordPwd
- */
 
 export interface User extends Document{
-    readonly _id: Schema.Types.ObjectId;
+    readonly id: Schema.Types.ObjectId;
     name : string;
     lastname: string;
     email:string;

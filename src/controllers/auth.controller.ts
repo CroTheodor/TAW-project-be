@@ -4,7 +4,7 @@ import * as user from '../models/auth/user.model';
 import jsonwebtoken = require('jsonwebtoken');
 
 
-
+//TODO: remember how it worked
 export const handleLogin = (req , res) => {
     const tokenData :TokenData = {
         name: req.user.name,

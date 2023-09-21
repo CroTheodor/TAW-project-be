@@ -4,10 +4,11 @@ import { deleteEmployee, getAllEmployees, getAllRoles, getEmployeeById, updateEm
 const router = express.Router();
 
 router.route("/")
-        .get(getAllEmployees)
+        .get(getAllEmployees);
+router.get('/roles', getAllRoles);
+router.route("/:id")
+        .get(getEmployeeById)
         .put(updateEmployee)
         .delete(deleteEmployee);
-router.get('/roles', getAllRoles);
-router.get("/:id", getEmployeeById);
 
 module.exports = router;

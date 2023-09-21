@@ -25,7 +25,7 @@ definition:{
         }
     ]
 },
-apis: ["./src/utils/api-doc.ts", "./src/models/*/*.ts"]
+apis: ["./src/documentation/*/*.yaml", "./src/models/*/*.ts"]
 };
 
 const swaggerSpec = swaggerJsdoc(options);
