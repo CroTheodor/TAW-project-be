@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc-watch --project . --outDir ./dist --onSuccess \"nodemon dist/server.js\"",
-    "start": "node dist/server.js",
+    "dev": "tsc-watch --project . --outDir ./dist --onSuccess \"nodemon dist/src/server.js\"",
+    "start": "node dist/src/server.js",
     "type": "module"
   },
   "author": "Tudor Croitor",
@@ -22,6 +22,8 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@types/swagger-jsdoc": "^6.0.1",
+    "@types/swagger-ui-express": "^4.1.3",
     "all": "^0.0.0",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
@@ -33,6 +35,8 @@
     "passport": "^0.6.0",
     "passport-http": "^0.3.0",
     "socket.io": "^4.6.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "tsc-watch": "^6.0.4"
   }
 }

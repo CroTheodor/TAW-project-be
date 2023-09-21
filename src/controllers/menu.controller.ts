@@ -114,6 +114,7 @@ export const deleteItem = (req, res)=>{
         }
     ).catch(
         err=>{
+            console.error(err);
             return res.sendStatus(404);
         }
     )
@@ -126,6 +127,7 @@ export const getById = (req,res)=>{
             return res.status(200).json(el);
         }
     ).catch(err=>{
+        console.error(err);
         return res.sendStatus(404);
     })
 }
