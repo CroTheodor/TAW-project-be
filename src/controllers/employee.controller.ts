@@ -1,4 +1,5 @@
-import * as user from '../models/user';
+import * as user from '../models/auth/user.model';
+import { transformResult } from '../utils/api-utils';
 import { ROLES } from '../utils/roles.enum';
 
 export const getAllEmployees = (req, res)=>{
@@ -6,7 +7,9 @@ export const getAllEmployees = (req, res)=>{
     if(role){
         console.log(role);
         user.getModel().find({roles:role},{digest:0, salt:0, refreshToken:0, __v : 0}).then(
-            result=>res.status(200).json(result)
+            result => {
+                res.status(200).json(transformResult(result));
+            }
         ).catch(err=>{
             res.sendStatus(404);
         });
@@ -15,7 +18,9 @@ export const getAllEmployees = (req, res)=>{
     user.getModel().find({}, {digest:0, salt:0, refreshToken:0, __v : 0}).catch(err=>{
         res.sendStatus(404);
     }).then(
-        result=> res.status(200).json(result)
+        result => {
+            res.status(200).json(transformResult(result));
+        }
     )
 }
 
@@ -36,7 +41,7 @@ export const getEmployeeById = (req,res)=>{
 }
 
 export const updateEmployee= (req,res)=>{
-    const id = req?.body?.id;
+    const id = req?.params?.id;
     if(!id){
         return res.status(400).json({message:"Id is required to update employee"});
     }
@@ -51,7 +56,7 @@ export const updateEmployee= (req,res)=>{
     if(lastname)
         updateProprieties['lastname'] = lastname;
     user.getModel().updateOne({_id:id},{$set:{...updateProprieties}})
-                    .then(id=>res.json({message:"Employee successfully updated"}))
+                    .then(id=>res.status(201).json({message:"Employee successfully updated"}))
                     .catch(err=>{
                         console.log(err);
                         res.sendStatus(404);
@@ -60,7 +65,7 @@ export const updateEmployee= (req,res)=>{
 }
 
 export const deleteEmployee=(req,res)=>{
-    const id = req?.body?.id;
+    const id = req?.params?.id;
     if(!id){
         return res.status(400).json({message:"Id is required to delete employee"});
     }

@@ -1,9 +1,10 @@
 import { Document, Schema, SchemaTypes, Model, model } from "mongoose";
 import  crypto   from "crypto"
-import { ROLES } from "../utils/roles.enum.js";
+import { ROLES } from "../../utils/roles.enum.js";
+
 
 export interface User extends Document{
-    readonly _id: Schema.Types.ObjectId;
+    readonly id: Schema.Types.ObjectId;
     name : string;
     lastname: string;
     email:string;
@@ -43,7 +44,7 @@ const userSchema = new Schema<User>( {
     },
     digest:  {
         type: SchemaTypes.String,
-        required: false 
+        required: true 
     },
     refreshToken: {
         type: SchemaTypes.String,

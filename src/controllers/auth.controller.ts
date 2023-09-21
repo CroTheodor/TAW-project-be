@@ -1,11 +1,10 @@
-import { TokenData } from '../models/tokenData';
-import { User, getSchema, getModel } from '../models/user';
-import * as user from '../models/user';
-import { ROLES } from '../utils/roles.enum';
+import { TokenData } from '../models/auth/tokenData';
+import { User } from '../models/auth/user.model';
+import * as user from '../models/auth/user.model';
 import jsonwebtoken = require('jsonwebtoken');
 
 
-
+//TODO: remember how it worked
 export const handleLogin = (req , res) => {
     const tokenData :TokenData = {
         name: req.user.name,

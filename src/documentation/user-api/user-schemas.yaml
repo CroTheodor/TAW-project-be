@@ -1,0 +1,54 @@
+components:
+  schemas:
+    RegisterDTO:
+          type: object
+          required:
+              - email
+              - name
+              - lastname
+              - roles
+              - password
+          properties:
+              email:
+                  type: string
+                  default: jane.doe@example.com
+              name:
+                  type: string
+                  default: jane
+              lastname:
+                  type: string
+                  default: doe
+              roles:
+                    type: array
+                    items:
+                      type: string
+                      default: role1, role2
+              password:
+                    type: string
+                    default: passwordPwd
+    UserDTO:
+      type: object
+      required:
+        - roles
+        - name
+        - lastname
+        - email
+        - id
+      properties:
+        email:
+            type: string
+            default: jane.doe@example.com
+        name:
+            type: string
+            default: jane
+        lastname:
+            type: string
+            default: doe
+        roles:
+              type: array
+              items:
+                type: string
+                default: role1, role2
+        id:
+              type: string
+              default: 650bff12852bef778094503c
