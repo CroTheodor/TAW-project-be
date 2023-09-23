@@ -1,0 +1,18 @@
+components:
+  schemas:
+    TableDTO:
+      type: object
+      required:
+        - tableNumber
+        - seats
+        - guests
+      properties:
+        tableNumber:
+          type: int
+          default: 1
+        seats:
+          type: int
+          default: 4
+        guests:
+          type: int
+          default: 0

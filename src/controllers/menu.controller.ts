@@ -104,7 +104,7 @@ export const updateItem = async (req, res) =>{
 
 export const deleteItem = (req, res)=>{
     const id = req.params.id;
-    Menu.getModel().deleteOne({id:id}).then(
+    Menu.getModel().deleteOne({_id:id}).then(
         el=>{
             return res.status(200).json(el);
         }
