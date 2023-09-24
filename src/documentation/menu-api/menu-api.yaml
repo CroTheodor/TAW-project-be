@@ -24,7 +24,7 @@
   post:
     tags:
       - Menu
-    description: Adds a menu menu enty 
+    description: Adds a menu entry 
     requestBody:
       content:
         application/json:
@@ -82,7 +82,7 @@
               type: string
     responses:
         200:
-            description: Successfuly retrieved employee
+            description: Successfuly retrieved item
             content:
               application/json:
                 schema:

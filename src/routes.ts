@@ -8,4 +8,5 @@ export function routes(app:Express){
 
     app.use(`/api/v1/menu`, require('./routes/api/v1/menu/menu.service'));
 
+    app.use(`/api/v1/tables`, require('./routes/api/v1/tables/tables.service'));
 }
